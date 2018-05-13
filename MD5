@@ -1,8 +1,8 @@
-e8d1d5ab2009c9e42feee97e06a2576c *DESCRIPTION
+7a0ae9e37a740bbe59df7420eb957786 *DESCRIPTION
 e65fd2215dfa4554ae2f3202eba7a7a1 *NAMESPACE
 628d0d6634ea52cdae3aab55b295a8e6 *R/RcppExports.R
 45b42f54fcfeb4a11bda418228b3f33e *R/newmcga.r
-b27466bbc40d14d51d79cfe9c757c6db *R/oplibrary.R
+8ee0724b209a35aaab1f805b6d5be44c *R/oplibrary.R
 1ebfd1f6a8089514b71f3ae451011a63 *R/zzz.r
 7c3e7e9d8d577b92676c98565f970286 *inst/CITATION
 fae259df85fed7817e3e7378aca9521d *man/ByteCodeMutation.Rd
@@ -25,7 +25,7 @@ ddd076a624baa949ae82a9e431048579 *man/EnsureBounds.Rd
 b9309fe5588075249f75425ff2a31a91 *man/UniformCrossOverOnDoublesUsingBytes.Rd
 49fc985ac03568724de5db03c9d00968 *man/arithmetic_crossover.Rd
 434ebf10c716960673652b3ea8f36975 *man/blx_crossover.Rd
-c75ee7ee1d3d7cc4c45e71a4ad8fbb6c *man/byte_crossover.Rd
+06a93a5104287cc2c06b15249456e552 *man/byte_crossover.Rd
 5a5baa4fddda80dfa7374561d5666042 *man/byte_crossover_1p.Rd
 6ea24c8fd6f08c08e7d1e33c618b7a31 *man/byte_crossover_2p.Rd
 1747c0250af068d54e2091a561a0cf1e *man/byte_mutation.Rd
@@ -47,5 +47,6 @@ fac7e3f8e0446ccc4a20ac74b007a20a *src/RcppExports.cpp
 c968fc8e2b5bb62aef5ef4ff82881eef *src/mcgatypes.h
 37d3b5acda9468a4404def7045fb26cd *src/multi_mcga.c
 dc1f15fd89635ddfc1af0fb18ae6e5f6 *src/multi_mcga.h
+1db8aceb66ddac905a2a5f7947b4b083 *src/registerDynamicSymbol.c
 b1a613f17e2b59d0a0e36fec7c431081 *src/rwrapper.c
 9721025ba590d6ce7d1c10937528dabb *src/typeconversations.cpp

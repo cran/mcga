@@ -16,13 +16,13 @@
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- GA::ga(type="real-valued", fitness = f, popSize = 100, maxiter = 200, 
-#'               min = rep(-50,5), max = rep(50,5), crossover = byte_crossover,
+#'               lower = rep(-50,5), upper = rep(50,5), crossover = byte_crossover,
 #'               mutation = byte_mutation)
 #' print(myga@solution)
 byte_mutation <- function (object, parent, ...){
   mutate <- as.vector(object@population[parent, ])
   mutate <- ByteCodeMutationUsingDoubles(mutate, object@pmutation)
-  EnsureBounds(mutate,object@min, object@max)
+  EnsureBounds(mutate,object@lower, object@upper)
   return(mutate)
 }
 
@@ -44,14 +44,14 @@ byte_mutation <- function (object, parent, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- GA::ga(type="real-valued", fitness = f, popSize = 100, maxiter = 200, 
-#'               min = rep(-50,5), max = rep(50,5), crossover = byte_crossover,
+#'               lower = rep(-50,5), upper = rep(50,5), crossover = byte_crossover,
 #'               mutation = byte_mutation_dynamic, pmutation = 0.10)
 #' print(myga@solution)
 byte_mutation_dynamic <- function (object, parent, ...){
   mutate <- as.vector(object@population[parent, ])
   pmutation <- object@pmutation - object@pmutation * (object@iter / object@maxiter) 
   mutate <- ByteCodeMutationUsingDoubles(mutate, pmutation)
-  EnsureBounds(mutate,object@min, object@max)
+  EnsureBounds(mutate,object@lower, object@upper)
   return(mutate)
 }
 
@@ -74,13 +74,13 @@ byte_mutation_dynamic <- function (object, parent, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- GA::ga(type="real-valued", fitness = f, popSize = 100, maxiter = 200, 
-#'               min = rep(-50,5), max = rep(50,5), crossover = byte_crossover,
+#'               lower = rep(-50,5), upper = rep(50,5), crossover = byte_crossover,
 #'               mutation = byte_mutation_random, pmutation = 0.20)
 #' print(myga@solution)
 byte_mutation_random <- function (object, parent, ...){
   mutate <- as.vector(object@population[parent, ])
   mutate <- ByteCodeMutationUsingDoublesRandom(mutate, object@pmutation)
-  EnsureBounds(mutate,object@min, object@max)
+  EnsureBounds(mutate,object@lower, object@upper)
   return(mutate)
 }
 
@@ -105,14 +105,14 @@ byte_mutation_random <- function (object, parent, ...){
 #' }
 #' # Increase popSize and maxiter for more precise solutions
 #' myga <- GA::ga(type="real-valued", fitness = f, popSize = 100, maxiter = 200, 
-#'               min = rep(-50,5), max = rep(50,5), crossover = byte_crossover,
+#'               lower = rep(-50,5), upper = rep(50,5), crossover = byte_crossover,
 #'               mutation = byte_mutation_random_dynamic, pmutation = 0.20)
 #' print(myga@solution)
 byte_mutation_random_dynamic <- function (object, parent, ...){
   mutate <- as.vector(object@population[parent, ])
   pmutation <- object@pmutation - object@pmutation * (object@iter / object@maxiter) 
   mutate <- ByteCodeMutationUsingDoublesRandom(mutate, pmutation)
-  EnsureBounds(mutate,object@min, object@max)
+  EnsureBounds(mutate,object@lower, object@upper)
   return(mutate)
 }
 
@@ -135,7 +135,7 @@ byte_mutation_random_dynamic <- function (object, parent, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- GA::ga(type="real-valued", fitness = f, popSize = 100, maxiter = 200, 
-#'               min = rep(-50,5), max = rep(50,5), crossover = byte_crossover,
+#'               lower = rep(-50,5), upper = rep(50,5), crossover = byte_crossover,
 #'               mutation = byte_mutation)
 #' print(myga@solution)
 byte_crossover <- function (object, parents, ...){
@@ -146,8 +146,8 @@ byte_crossover <- function (object, parents, ...){
   offs <- UniformCrossOverOnDoublesUsingBytes(ch1, ch2)
   off1 <- offs[[1]]
   off2 <- offs[[2]]
-  EnsureBounds(off1, object@min, object@max)
-  EnsureBounds(off2, object@min, object@max)
+  EnsureBounds(off1, object@lower, object@upper)
+  EnsureBounds(off2, object@lower, object@upper)
   
   out <- list(children = rbind(off1,off2), fitness = rep(NA, 2))
   return(out)
@@ -174,7 +174,7 @@ byte_crossover <- function (object, parents, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- GA::ga(type="real-valued", fitness = f, popSize = 100, maxiter = 200, 
-#'               min = rep(-50,5), max = rep(50,5), crossover = byte_crossover_1p,
+#'               lower = rep(-50,5), upper = rep(50,5), crossover = byte_crossover_1p,
 #'               mutation = byte_mutation)
 #' print(myga@solution)
 byte_crossover_1p <- function (object, parents, ...){
@@ -184,8 +184,8 @@ byte_crossover_1p <- function (object, parents, ...){
   offs <- OnePointCrossOverOnDoublesUsingBytes(ch1, ch2, sample(1:(length(ch1) * SizeOfDouble()),1)[1])
   off1 <- offs[[1]]
   off2 <- offs[[2]]
-  EnsureBounds(off1, object@min, object@max)
-  EnsureBounds(off2, object@min, object@max)
+  EnsureBounds(off1, object@lower, object@upper)
+  EnsureBounds(off2, object@lower, object@upper)
   out <- list(children = rbind(off1,off2), fitness = rep(NA, 2))
   return(out)
 }
@@ -210,7 +210,7 @@ byte_crossover_1p <- function (object, parents, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- GA::ga(type="real-valued", fitness = f, popSize = 100, maxiter = 200, 
-#'               min = rep(-50,5), max = rep(50,5), crossover = byte_crossover_2p,
+#'               lower = rep(-50,5), upper = rep(50,5), crossover = byte_crossover_2p,
 #'               mutation = byte_mutation)
 #' print(myga@solution)
 byte_crossover_2p <- function (object, parents, ...){
@@ -221,8 +221,8 @@ byte_crossover_2p <- function (object, parents, ...){
   offs <- TwoPointCrossOverOnDoublesUsingBytes(ch1, ch2, cutpoints[1], cutpoints[2])
   off1 <- offs[[1]]
   off2 <- offs[[2]]
-  EnsureBounds(off1, object@min, object@max)
-  EnsureBounds(off2, object@min, object@max)
+  EnsureBounds(off1, object@lower, object@upper)
+  EnsureBounds(off2, object@lower, object@upper)
   out <- list(children = rbind(off1,off2), fitness = rep(NA, 2))
   return(out)
 }
@@ -245,7 +245,7 @@ byte_crossover_2p <- function (object, parents, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- ga(type="real-valued", fitness = f, popSize = 100, maxiter = 100, 
-#'            min = rep(-50,5), max = rep(50,5), crossover = sbx_crossover)
+#'            lower = rep(-50,5), upper = rep(50,5), crossover = sbx_crossover)
 #' print(myga@solution)
 sbx_crossover <- function (object, parents, ...) 
 {
@@ -284,7 +284,7 @@ sbx_crossover <- function (object, parents, ...)
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- ga(type="real-valued", fitness = f, popSize = 100, maxiter = 100, 
-#'            min = rep(-50,5), max = rep(50,5), crossover = flat_crossover)
+#'            lower = rep(-50,5), upper = rep(50,5), crossover = flat_crossover)
 #' print(myga@solution)
 flat_crossover <- function (object, parents, ...){
   parents <- object@population[parents, , drop = FALSE]
@@ -317,7 +317,7 @@ flat_crossover <- function (object, parents, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- ga(type="real-valued", fitness = f, popSize = 100, maxiter = 100, 
-#'            min = rep(-50,5), max = rep(50,5), crossover = arithmetic_crossover)
+#'            lower = rep(-50,5), upper = rep(50,5), crossover = arithmetic_crossover)
 #' print(myga@solution)
 arithmetic_crossover <- function (object, parents, ...){
   parents <- object@population[parents, , drop = FALSE]
@@ -344,7 +344,7 @@ arithmetic_crossover <- function (object, parents, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- ga(type="real-valued", fitness = f, popSize = 100, maxiter = 100, 
-#'            min = rep(-50,5), max = rep(50,5), crossover = blx_crossover)
+#'            lower = rep(-50,5), upper = rep(50,5), crossover = blx_crossover)
 #' print(myga@solution)
 blx_crossover <- function (object, parents, ...){
   parents <- object@population[parents, , drop = FALSE]
@@ -378,7 +378,7 @@ blx_crossover <- function (object, parents, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- ga(type="real-valued", fitness = f, popSize = 100, maxiter = 100, 
-#'            min = rep(-50,5), max = rep(50,5), crossover = linear_crossover)
+#'            lower = rep(-50,5), upper = rep(50,5), crossover = linear_crossover)
 #' print(myga@solution)
 linear_crossover <- function (object, parents, ...){
   parents <- object@population[parents, , drop = FALSE]
@@ -412,7 +412,7 @@ linear_crossover <- function (object, parents, ...){
 #'   return(-sum( (x-5)^2 ) )
 #' }
 #' myga <- ga(type="real-valued", fitness = f, popSize = 100, maxiter = 100, 
-#'            min = rep(-50,5), max = rep(50,5), crossover = unfair_average_crossover)
+#'            lower = rep(-50,5), upper = rep(50,5), crossover = unfair_average_crossover)
 #' print(myga@solution)
 unfair_average_crossover <- function (object, parents, ...){
   parents <- object@population[parents, , drop = FALSE]
@@ -491,7 +491,7 @@ mcga2 <- function(fitness, ...,
         seed = NULL){
 
 
-myga <- ga(type = "real-valued", fitness = fitness, ..., min = min, max = max, population = population, selection = selection, crossover = crossover, mutation = mutation, popSize = popSize, pcrossover = pcrossover, pmutation = pmutation, elitism = elitism, maxiter = maxiter, run = run, maxFitness = maxFitness, names = names, parallel = parallel, monitor = monitor, seed = seed)
+myga <- ga(type = "real-valued", fitness = fitness, ..., lower = min, upper = max, population = population, selection = selection, crossover = crossover, mutation = mutation, popSize = popSize, pcrossover = pcrossover, pmutation = pmutation, elitism = elitism, maxiter = maxiter, run = run, maxFitness = maxFitness, names = names, parallel = parallel, monitor = monitor, seed = seed)
 
 return(myga)
 }
